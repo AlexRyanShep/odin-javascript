@@ -5,28 +5,48 @@
   <title>Page Title</title>
 </head>
 <body>
+  <div id="container">
+    <button id="1">Click Me</button>
+    <button id="2">Click Me</button>
+    <button id="3">Click Me</button>
+  </div>
   <script>
     
-    let a = +prompt('a?', '');
+   const buttons = document.querySelectorAll('button');
 
-    switch(a){
-        case 0:
-            alert('0');
-            break;
+   buttons.forEach((button) => {
+    button.addEventListener('dblclick', () => {
+      console.log(button.id);
+    });
+   });
 
-        case 1:
-            alert('1');
-            break;
+  function createSomeStuff() {
+    const container = document.querySelector('#container');
 
-        case 2:
-        case 3:
-            alert('2,3');
-            break;
+    const redcontent = document.createElement('p');
+    redcontent.textContent = "Hey, I'm red!";
+    redcontent.style.color = 'red';
+    container.appendChild(redcontent);    
 
-        default: 
-            alert('Invalid')
-            break;
-    }
+    const blueh3 = document.createElement('h3');
+    blueh3.textContent = "I'm a blue h3!";
+    blueh3.style.color = 'blue';
+    container.appendChild(blueh3);
+
+    const mydiv = document.createElement('div');
+    const myp = document.createElement('p');
+    const myh1 = document.createElement('h1');
+
+    myh1.textContent = "I'm in a div";
+    myp.textContent = "ME TOO!";
+
+    mydiv.style.border = 'solid 2px black';
+    mydiv.style.backgroundColor = 'pink';
+
+    mydiv.appendChild(myh1);
+    mydiv.appendChild(myp);
+    container.appendChild(mydiv);
+  };
 
   </script>
 </body>

@@ -12,24 +12,24 @@ function getComputerChoice() {
     };
 };
 
-function getPlayerChoice() {
+// function getPlayerChoice() {
     
-    const VALID = ["rock", "paper", "scissors"];
-    let choice = "";
-    while(!VALID.includes(choice)){
+//     const VALID = ["rock", "paper", "scissors"];
+//     let choice = "";
+//     while(!VALID.includes(choice)){
 
-        choice = prompt("Choose Rock, Paper or Scissors").toLowerCase();
+//         choice = prompt("Choose Rock, Paper or Scissors").toLowerCase();
     
-        if (!VALID.includes(choice)){
-            alert("Invalid choice, please choose Rock, Paper or Scissors");
-        };
-    };
+//         if (!VALID.includes(choice)){
+//             alert("Invalid choice, please choose Rock, Paper or Scissors");
+//         };
+//     };
     
-    return(choice);
+//     return(choice);
 
-};
+// };
 
-function playRound(playerSelection, computerSelection) {
+function playRound(playerSelection, computerSelection,) {
     switch(playerSelection){
         case "rock":
             switch(computerSelection) {
@@ -63,41 +63,52 @@ function playRound(playerSelection, computerSelection) {
    
 
 
-function game(){
+function game(playerSelection, score, round, results, buttons){
 
-    let playerSelection = "", computerSelection = "";
-    let playerScore = 0, computerScore = 0;
-    for (let i = 0; i < 5; i++){
+    let computerSelection = "";
+  
         
-        playerSelection = getPlayerChoice();
-        computerSelection = getComputerChoice();
-        result = playRound(playerSelection, computerSelection);
+    computerSelection = getComputerChoice();
+    result = playRound(playerSelection, computerSelection);
 
-        if (result == "Player wins!"){
-            playerScore++
-        } else if (result == "Computer wins!") {
-            computerScore++
+    if (result == "Player wins!"){
+        score[0]++
+    } else if (result == "Computer wins!") {
+        score[1]++
+    }
+
+    results.innerHTML = "<p>Round " + (round) + ": Player chose " + playerSelection + " and Computer chose " + computerSelection + " , " + result + "</p>" +
+    "<p>Score is Player: " + score[0]+ " - Computer: " + score[1] + "</p>";
+
+    if (round == 5) {
+        if (score[0] > score[1]){
+            results.textContent = `Player wins the game ${score[0]} to ${score[1]}!`;
+        } else if (score[1] > score[0]){
+            results.textContent = `Computer wins the game ${score[1]} to ${score[0]}!`;
+        } else {
+            results.textContent = "It's a draw!";
         }
 
-        alert(`Round ${i + 1}: Player chose ${playerSelection} and Computer chose ${computerSelection}, ${result}
-    Score is Player: ${playerScore} - Computer: ${computerScore}`);
+        document.getElementById("intro").remove();
+        buttons.forEach((button) => {
+            button.remove()
+        });
 
-    };
-
-    if (playerScore > computerScore){
-        alert(`Player wins the game ${playerScore} to ${computerScore}!`);
-    } else if (computerScore > playerScore){
-        alert(`Computer wins the game ${computerScore} to ${playerScore}!`);
-    } else {
-        alert("It's a draw!");
     }
+
+    return score
 };
 
-game();
 
-// const playerSelection = getPlayerChoice();
-// // Todo create getPlayerChoice function with validation
+const buttons = document.querySelectorAll('button');
+let results = document.querySelector('#results');
+results.setAttribute('style', 'white-space: pre;');
 
-// const computerSelection = getComputerChoice();
-// alert(`Player chose ${playerSelection} and Computer chose ${computerSelection}, ${
-//     playRound(playerSelection, computerSelection)}`);
+let score = [0 , 0], round = 0;
+
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        round++;
+        score = game(button.id, score, round, results, buttons);
+    });
+});
