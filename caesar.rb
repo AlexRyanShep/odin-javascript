@@ -4,29 +4,17 @@ def caesar_cipher (string, dif)
   # basic_increase
   ascii = string.bytes
   ascii.map! do |char|
-    char.to_i
+
     case char
+
     when 65..90
-
       char += dif
-
-      if char > 90
-        remainder = char - 90
-        char = 64 + remainder
-      end
-
-
+      char = 64 + (char - 90) if char > 90
     when 97..122
-
       char += dif
-
-      if char > 122
-        remainder = char - 122
-        char = 96 + remainder
-      end
+      char = 96 + (char - 122) if char > 122
     end
     char
-
   end
   ascii.pack('c*')
 end
