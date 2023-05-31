@@ -2,7 +2,8 @@
 
 # Contains piece, name and score for the given player
 class Player
-  attr_reader :score, :piece, :name
+  attr_reader :piece, :name
+  attr_accessor :score
 
   def initialize(name, piece)
     @score = 0
@@ -27,7 +28,6 @@ class Player
     until board[y][x] == ''
       x = @random.rand(0..2)
       y = @random.rand(0..2)
-      puts "#{x} /#{y}"
     end
     [x, y]
   end
@@ -84,24 +84,28 @@ class Game
     x, y = player.submit_coordinates(@board)
     @board[y][x] = player.piece
     display
+    if check_victory == 'Draw'
+      puts 'The game is a draw!'
+      return true
+    elsif check_victory == true
+      puts "#{@current_player.name} wins!"
+      @current_player.score += 1
+      return true
+    end
     @current_player = @current_player == @player1 ? @player2 : @player1
-    check_victory # TODO: modify to report victor
+    false
   end
-  
+
   # Checks various victory conditions (or for a draw) and returns true if it encounters them
   def check_victory
     if row?
-      puts 'Row!'
-      true
-    elsif draw?
-      puts 'Draw!'
       true
     elsif vertical?
-      puts 'Vertical!'
       true
     elsif diagonal?
-      puts 'Diagonal!'
       true
+    elsif draw?
+      'Draw'
     else
       false
     end
@@ -117,7 +121,7 @@ class Game
   end
 
   def vertical?
-    3.times { |x| return true if @board[0][x] != '' && (@board[0][x] == @board[1][x] && @board[1][x] == @board[2][x])}
+    3.times { |x| return true if @board[0][x] != '' && (@board[0][x] == @board[1][x] && @board[1][x] == @board[2][x]) }
     false
   end
 
@@ -138,9 +142,23 @@ player_name = gets.chomp
 human = Player.new(player_name, 'X')
 computer = Player.new('Computer', 'O')
 
-game1 = Game.new(human, computer, human)
-
-until game1.play_round(game1.current_player)
+loop do
+  game = Game.new(human, computer, human)
+  until game.play_round(game.current_player)
+  end
+  human.check_score(computer)
+  puts 'Do you want to play another game? Y/N'
+  input = gets.chomp.downcase
+  until ['y', 'n'].include?(input)
+    case input
+    when 'y'
+      next
+    when 'n'
+      break
+    else
+      puts 'Please enter Y or N'
+      input = gets.chomp.lower
+    end
+  end
 end
 
-# TODO: Multiple rounds
