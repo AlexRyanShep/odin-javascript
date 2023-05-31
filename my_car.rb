@@ -3,7 +3,7 @@
 # Vehicles superclass
 class Vehicle
   attr_accessor :colour
-  attr_reader :year, :model, :number_of_vehicles
+  attr_reader :year, :model
   attr_writer :speed
 
   @@number_of_vehicles = 0
@@ -14,6 +14,11 @@ class Vehicle
     @model = model
     @@number_of_vehicles += 1
   end
+
+  def self.number_of_vehicles
+    @@number_of_vehicles
+  end
+
   def speed_up(speed)
     @speed += speed
   end
@@ -35,10 +40,24 @@ class Vehicle
   end
 end
 
+# Convertibles
+module Convertible
+  def roof_setup
+    @roof = 'Down'
+  end
+
+  def change_roof
+    @roof = @roof == 'Down' ? 'Up' : 'Down'
+    puts "The roof is now #{@roof}"
+  end
+end
+
 # Broom broom, I'm a car
 class Car < Vehicle
+  include Convertible
+
   def initialize(year, colour, model)
-    super
+    super(year, colour, model)
   end
 end
 
@@ -52,14 +71,16 @@ class Truck < Vehicle
   end
 
   def capacity
-    puts "This #{model} truck can carry #{capacity} tonnes"
+    puts "This #{@model} truck can carry #{@capacity} tonnes"
   end
 end
 
 tilda = Car.new(2010, 'Red', 'Volvo')
+tilda.roof_setup
 tilda.speed
 tilda.speed_up(60)
 tilda.speed
+tilda.change_roof
 tilda.brake(20)
 tilda.speed
 tilda.turn_off
@@ -68,3 +89,5 @@ truck = Truck.new(2020, 'White', 'Semi', 100)
 
 puts truck.capacity
 Car.mileage_calc(351, 13)
+puts Vehicle.number_of_vehicles
+
