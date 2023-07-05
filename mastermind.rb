@@ -111,7 +111,6 @@ p code # TODO: Remove this when done
 secret_code = Code.new(code)
 
 # Game loop
-puts caesar_cipher("What a string!", 5)
 loop do
   # Check for game end.
 
