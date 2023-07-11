@@ -61,7 +61,7 @@ class Player
 end
 
 # Each instance represents a separate round of tic-tac-toe
-class Game
+class Round
   attr_reader :current_player
 
   def initialize(player1, player2, first_player)
@@ -143,7 +143,7 @@ human = Player.new(player_name, 'X')
 computer = Player.new('Computer', 'O')
 
 loop do
-  game = Game.new(human, computer, human)
+  game = Round.new(human, computer, human)
   until game.play_round(game.current_player)
   end
   human.check_score(computer)
