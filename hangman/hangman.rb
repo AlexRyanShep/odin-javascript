@@ -174,7 +174,7 @@ def game_loop(player, round)
     else
       loop do
         print 'Do you want to play another round?: '
-        case gets.downcase.chomp
+        case gets&.downcase&.chomp
         when 'y'
           round = Round.new
           puts round.guess.join('')
