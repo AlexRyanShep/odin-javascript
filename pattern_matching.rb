@@ -2,8 +2,8 @@ arr = [1, 2, 3, 4, 5, 'potatoes', 6, 7, 8]
 
 
 case arr
-in [*front, 5, a, 6, *ennd]
-  puts "#{front} + #{a} + #{ennd}"
+in [*start, 5, a, 6, *fin]
+  puts "#{start} + #{a} + #{fin}"
 else
   puts :no_match
 end
@@ -38,3 +38,11 @@ else
   p "not matched"
 end# frozen_string_literal: true
 
+test = "I want to strip out the potatoes word that doesn't belong"
+
+puts test
+
+case test.split
+in [*a, 'potatoes', *b]
+  puts "#{a.join(' ')} #{b.join(' ')}"
+end
