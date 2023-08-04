@@ -10,10 +10,19 @@ module Caesar
 
         when 65..90
           char += dif
-          char = 64 + (char - 90) until char < 90
+          if dif.positive?
+            char = 64 + (char - 90) until char <= 90
+          else
+            char = 90 + (char - 64) until char >= 65
+          end
         when 97..122
           char += dif
-          char = 96 + (char - 122) if char > 122
+          if dif.positive?
+            char = 96 + (char - 122) until char <= 122
+          else
+            char = 122 + (char - 96) until char >= 97
+          end
+
         end
         char
       end
